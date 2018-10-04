@@ -14,9 +14,17 @@ namespace algebra
     private:
         matrixd content;
     public:
-        Matrix(unsigned m, unsigned n);
+        Matrix(unsigned m = 1, unsigned n = 1);
         double get_element(unsigned i, unsigned j);
         void set_element(double e, unsigned i, unsigned j);
+        vectord get_row(unsigned i);
+        void set_row(vectord &v, unsigned i);
+        void print_element(unsigned i, unsigned j, int a = 7, int b = 2);
+        void input_element(unsigned i, unsigned j);
+        void print_row(unsigned i, int a = 7, int b = 2);
+        void input_row(unsigned i);
+        void print_matrix(int a, int b);
+        void input_matrix();
     };
 }
 
