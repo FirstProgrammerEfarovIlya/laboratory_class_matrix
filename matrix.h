@@ -12,10 +12,11 @@ namespace algebra
     class Matrix
     {
     private:
-
-    public:
         matrixd content;
+    public:
         Matrix(unsigned m, unsigned n);
+        double get_element(unsigned i, unsigned j);
+        void set_element(double e, unsigned i, unsigned j);
     };
 }
 

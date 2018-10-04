@@ -10,7 +10,19 @@ namespace algebra
         for (unsigned i = 0; i < m; i++)
         {
             vectord line(n);
-            content.push_back(line);
+            this->content.push_back(line);
         }
+    }
+
+
+    double Matrix::get_element(unsigned i, unsigned j)
+    {
+        return this->content[i][j];
+    }
+
+
+    void Matrix::set_element(double e, unsigned i, unsigned j)
+    {
+        this->content[i][j] = e;
     }
 }
