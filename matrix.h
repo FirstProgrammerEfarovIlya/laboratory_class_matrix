@@ -14,7 +14,7 @@ namespace algebra
     private:
         matrixd content;
     public:
-        Matrix(unsigned m = 1, unsigned n = 1);
+        Matrix(unsigned m = 0, unsigned n = 0);
         double get_element(unsigned i, unsigned j);
         void set_element(double e, unsigned i, unsigned j);
         vectord get_row(unsigned i);
@@ -38,6 +38,10 @@ namespace algebra
         void zero();
         Matrix operator * (Matrix &matr);
         Matrix operator * (double num);
+        void T();
+        Matrix minor(unsigned i, unsigned j);
+        double Det();
+        void inverse();
     };
 }
 

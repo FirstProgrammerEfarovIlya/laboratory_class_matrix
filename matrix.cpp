@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
 
 using namespace std;
 
@@ -366,5 +367,110 @@ namespace algebra
            }
        }
        return rezult;
+   }
+
+
+   void Matrix::T()
+   {
+       // нахождение траспонированной матрицы
+       Matrix matrixt;
+       unsigned m = content.size();
+       unsigned n = content[0].size();
+       for (unsigned j = 0; j < n; j++)
+       {
+           vectord line;
+           for (unsigned i = 0; i < m; i++)
+           {
+               line.push_back(content[i][j]);
+           }
+           matrixt.content.push_back(line);
+       }
+       this->content = matrixt.content;
+   }
+
+
+   Matrix Matrix::minor(unsigned i, unsigned j)
+   {
+       // нахождение минора
+       Matrix minor;
+       unsigned m = content.size();
+       unsigned n = content[0].size();
+       for (unsigned k = 0; k < m; k++)
+       {
+           vectord line;
+           for (unsigned l = 0; l < n; l++)
+           {
+               if (k != i && l != j)
+               {
+                   double e = content[k][l];
+                   line.push_back(e);
+               }
+           }
+           if (line.size() > 0)
+           {
+               minor.content.push_back(line);
+           }
+       }
+       return minor;
+   }
+   double Matrix::Det()
+   {
+       // нахождение определителя
+       unsigned n = content.size();
+       double det;
+       if (n == 1)
+       {
+           det = content[0][0];
+           return det;
+       }
+       if (n == 2)
+       {
+           det = content[0][0]*content[1][1] - content[0][1]*content[1][0];
+           return det;
+       }
+       else
+       {
+           det = 0.0;
+           for (unsigned i = 0; i < 1; i++)
+           {
+               for (unsigned j = 0; j < n; j++)
+               {
+                   Matrix minor = this -> minor(i, j);
+                   det += pow(-1, i + j) * content[i][j] * minor.Det();
+               }
+           }
+           return det;
+       }
+   }
+
+
+
+   void Matrix::inverse()
+   {
+       // нахождение обратной матрицы
+       double det = this->Det();
+       if (det == 0.0)
+       {
+           cout << "Determinant = 0. Can not find inverse matrix!!!" << endl;
+           exit(0);
+       }
+       else
+       {
+           unsigned n = content.size();
+           //matrixd matrix_inv = matrix;
+           Matrix matr_inv;
+           matr_inv.content = this->content;
+           for (unsigned i = 0; i < n; i++)
+           {
+               for (unsigned j = 0; j < n; j++)
+               {
+                   Matrix minor = this -> minor(i, j);
+                   matr_inv.content[i][j] = pow(-1, i + j) * minor.Det();
+               }
+           }
+           matr_inv.T();
+           matr_inv = matr_inv * (1 / det);
+           this -> content = matr_inv.content;
+       }
    }
 }
