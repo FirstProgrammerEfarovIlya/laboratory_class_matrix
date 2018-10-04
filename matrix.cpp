@@ -2,6 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -109,4 +111,133 @@ namespace algebra
         }
         cout << endl;
     }
+
+
+    Matrix Matrix::operator + (Matrix &matr)
+    {
+        // сложение матриц
+        unsigned m1 = this->content.size();
+        unsigned n1 = this->content[0].size();
+        unsigned m2 = matr.content.size();
+        unsigned n2 = matr.content[0].size();
+        try
+        {
+            if (m1 != m2 || n1 != n2)
+            {
+                throw 0;
+            }
+        }
+        catch(int x)
+        {
+            cout << endl;
+            cout << "Matrices have different sizes!!!" << endl;
+            exit(x);
+        }
+
+        Matrix rezult(m1, n1);
+
+        for (unsigned i = 0; i < m1; i++)
+        {
+            for (unsigned j = 0; j < n1; j++)
+            {
+                rezult.content[i][j] = this->content[i][j] + matr.content[i][j];
+            }
+        }
+
+        return rezult;
+    }
+
+
+    Matrix Matrix::operator - (Matrix &matr)
+    {
+        // вычитание матриц
+        unsigned m1 = this->content.size();
+        unsigned n1 = this->content[0].size();
+        unsigned m2 = matr.content.size();
+        unsigned n2 = matr.content[0].size();
+        try
+        {
+            if (m1 != m2 || n1 != n2)
+            {
+                throw 0;
+            }
+        }
+        catch(int x)
+        {
+            cout << endl;
+            cout << "Matrices have different sizes!!!" << endl;
+            exit(x);
+        }
+
+        Matrix rezult(m1, n1);
+
+        for (unsigned i = 0; i < m1; i++)
+        {
+            for (unsigned j = 0; j < n1; j++)
+            {
+                rezult.content[i][j] = this->content[i][j] - matr.content[i][j];
+            }
+        }
+
+        return rezult;
+    }
+
+
+    unsigned Matrix::get_size()
+    {
+        unsigned s = 0;
+        for (vectord line : this -> content)
+        {
+            s += line.size();
+        }
+        return s;
+    }
+
+
+   void Matrix::clear()
+   {
+       content.clear();
+   }
+
+
+   void Matrix::set_size(unsigned m, unsigned n)
+   {
+       matrixd cmatr(m);
+       unsigned mc = content.size();
+       unsigned nc = content[0].size();
+       for (unsigned i = 0; i < m; i++)
+       {
+           vectord line(n);
+           for (unsigned j = 0; j < n; j++)
+           {
+               if (i >= mc || j >= nc)
+               {
+                   line[j] = 0;
+               }
+               else
+               {
+                   line[j] = content[i][j];
+               }
+           }
+           cmatr[i] = line;
+       }
+       content = cmatr;
+   }
+
+
+   void Matrix::random(int a, int b)
+   {
+       for (vectord &line : content)
+       {
+           for (double &e : line)
+           {
+               e = rand() % b + a;
+           }
+       }
+   }
+
+
+   void same_num(double num);
+   void one();
+   void zero();
 }

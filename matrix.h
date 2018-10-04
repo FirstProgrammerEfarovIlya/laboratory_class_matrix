@@ -23,8 +23,17 @@ namespace algebra
         void input_element(unsigned i, unsigned j);
         void print_row(unsigned i, int a = 7, int b = 2);
         void input_row(unsigned i);
-        void print_matrix(int a, int b);
+        void print_matrix(int a = 7, int b = 2);
         void input_matrix();
+        Matrix operator + (Matrix &matr);
+        Matrix operator - (Matrix &matr);
+        unsigned get_size();
+        void clear();
+        void set_size(unsigned m, unsigned n);
+        void random();
+        void same_num(double num);
+        void one();
+        void zero();
     };
 }
 
