@@ -225,19 +225,146 @@ namespace algebra
    }
 
 
-   void Matrix::random(int a, int b)
+   void Matrix::randint(int a, int b)
    {
+       srand(time(0));
        for (vectord &line : content)
        {
            for (double &e : line)
            {
-               e = rand() % b + a;
+               e = double(rand() % b + a);
            }
        }
    }
 
 
-   void same_num(double num);
-   void one();
-   void zero();
+   void Matrix::random()
+   {
+       srand(time(0));
+       for (vectord &line : content)
+       {
+           for (double &e : line)
+           {
+               e = rand()/double(RAND_MAX);
+           }
+       }
+   }
+
+
+   void Matrix::randfloat(int a, int b)
+   {
+       srand(time(0));
+       for (vectord &line : content)
+       {
+           for (double &e : line)
+           {
+               e = double(rand() % b + a) + rand()/double(RAND_MAX);
+           }
+       }
+   }
+
+
+   void Matrix::same_num(double num)
+   {
+       for (vectord &line : content)
+       {
+           for (double &e : line)
+           {
+               e = num;
+           }
+       }
+   }
+
+
+
+   void Matrix::one()
+   {
+       unsigned m = content.size();
+       unsigned n = content[0].size();
+       for (unsigned i = 0; i < m; i++)
+       {
+           for (unsigned j = 0; j < n; j++)
+           {
+               if (i == j)
+               {
+                   content[i][j] = 1.0;
+               }
+               else
+               {
+                   content[i][j] = 0.0;
+               }
+           }
+       }
+   }
+
+
+
+   void Matrix::zero()
+   {
+       unsigned m = content.size();
+       unsigned n = content[0].size();
+       matrixd matr(m);
+       vectord line(n);
+       for (unsigned i = 0; i < m; i++)
+       {
+           matr[i] = line;
+       }
+       content = matr;
+   }
+
+
+   Matrix Matrix::operator * (Matrix &matr)
+   {
+       // умножение матриц
+       unsigned m1 = this->content.size();
+       unsigned n1 = this->content[0].size();
+       unsigned m2 = matr.content.size();
+       unsigned n2 = matr.content[0].size();
+       Matrix rezult(m1, n2);
+
+       try
+       {
+           if (n1 != m2)
+           {
+               throw 0;
+           }
+       }
+       catch(int x)
+       {
+           cout << endl;
+           cout << "The number of columns of the first matrix is" << endl;
+           cout << " ​​not equal to the number of rows of the second matrix!!!" << endl;
+           exit(x);
+       }
+
+       for (unsigned i = 0; i < m1; i++)
+       {
+           for (unsigned j = 0; j < n2; j++)
+           {
+               for (unsigned k = 0; k < n1; k++)
+               {
+                   rezult.content[i][j] += this->content[i][k] * matr.content[k][j];
+               }
+           }
+       }
+
+       return rezult;
+   }
+
+
+   Matrix Matrix::operator * (double num)
+   {
+       // умножение матрицы на скаляр
+       unsigned m = this->content.size();
+       unsigned n = this->content[0].size();
+       Matrix rezult(m, n);
+       for (unsigned i = 0; i < m; i++)
+       {
+           for (unsigned j = 0; j < n; j++)
+           {
+               rezult.content[i][j] = this->content[i][j] * num;
+           }
+       }
+       return rezult;
+   }
 }

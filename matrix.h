@@ -30,10 +30,14 @@ namespace algebra
         unsigned get_size();
         void clear();
         void set_size(unsigned m, unsigned n);
+        void randint(int a = 0, int b = 100);
         void random();
+        void randfloat(int a = 0, int b = 100);
         void same_num(double num);
         void one();
         void zero();
+        Matrix operator * (Matrix &matr);
+        Matrix operator * (double num);
     };
 }
 
