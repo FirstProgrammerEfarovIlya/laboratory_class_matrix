@@ -1,9 +1,11 @@
 #include <iostream>
+#include "matrix.h"
 
 using namespace std;
-
+using namespace algebra;
 int main()
 {
-    cout << "Hello World!" << endl;
+    Matrix matr1(10, 10);
+    cout << matr1.content[0][0] << endl;
     return 0;
 }
