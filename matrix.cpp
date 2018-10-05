@@ -21,7 +21,7 @@ namespace algebra
     }
 
 
-    double Matrix::element(unsigned i, unsigned j)
+    double Matrix::element(unsigned i, unsigned j) const
     {
         return this->content[i][j];
     }
@@ -33,7 +33,7 @@ namespace algebra
     }
 
 
-    vectord Matrix::row(unsigned i)
+    vectord Matrix::row(unsigned i) const
     {
         return this->content[i];
     }
@@ -41,18 +41,35 @@ namespace algebra
 
     void Matrix::set_row(vectord &v, unsigned i)
     {
-        this->content[i] = v;
+        try
+        {
+            if (v.size() == content[0].size())
+            {
+                this->content[i] = v;
+            }
+            else
+            {
+                throw 0;
+            }
+        }
+        catch (int x)
+        {
+            cout << endl;
+            cout << "The number of elements of the getting row is" << endl;
+            cout << " ​​not equal to the number of elements of the setting row!!!" << endl;
+            exit(x);
+        }
     }
 
 
-    void Matrix::print_element(unsigned i, unsigned j, int a, int b)
+    void Matrix::print_element(unsigned i, unsigned j, int a, int b) const
     {
         cout << fixed << setw(a) << setprecision(b) << "element[" << i << "]"
              << "[" << j << "] = " << content[i][j] << endl;
     }
 
 
-    void Matrix::print_row(unsigned i, int a, int b)
+    void Matrix::print_row(unsigned i, int a, int b) const
     {
         cout << "{";
         for (double e : this->content[i])
@@ -63,7 +80,7 @@ namespace algebra
     }
 
 
-    void Matrix::print_matrix(int a, int b)
+    void Matrix::print_matrix(int a, int b) const
     {
         cout << endl;
 
@@ -96,7 +113,7 @@ namespace algebra
     }
 
 
-    Matrix Matrix::operator + (Matrix &matr)
+    Matrix Matrix::operator + (const Matrix &matr) const
     {
         // сложение матриц
         unsigned m1 = this->content.size();
@@ -131,7 +148,7 @@ namespace algebra
     }
 
 
-    Matrix Matrix::operator - (Matrix &matr)
+    Matrix Matrix::operator - (const Matrix &matr) const
     {
         // вычитание матриц
         unsigned m1 = this->content.size();
@@ -163,17 +180,6 @@ namespace algebra
         }
 
         return rezult;
-    }
-
-
-    unsigned Matrix::size()
-    {
-        unsigned s = 0;
-        for (vectord line : this -> content)
-        {
-            s += line.size();
-        }
-        return s;
     }
 
 
@@ -296,7 +302,7 @@ namespace algebra
    }
 
 
-   Matrix Matrix::operator * (Matrix &matr)
+   Matrix Matrix::operator * (const Matrix &matr) const
    {
        // умножение матриц
        unsigned m1 = this->content.size();
@@ -335,7 +341,7 @@ namespace algebra
    }
 
 
-   Matrix Matrix::operator * (double num)
+   Matrix Matrix::operator * (double num) const
    {
        // умножение матрицы на скаляр
        unsigned m = this->content.size();
@@ -352,7 +358,7 @@ namespace algebra
    }
 
 
-   void Matrix::T()
+   Matrix Matrix::T() const
    {
        // нахождение траспонированной матрицы
        Matrix matrixt;
@@ -367,11 +373,11 @@ namespace algebra
            }
            matrixt.content.push_back(line);
        }
-       this->content = matrixt.content;
+       return matrixt;
    }
 
 
-   Matrix Matrix::minor(unsigned i, unsigned j)
+   Matrix Matrix::minor(unsigned i, unsigned j) const
    {
        // нахождение минора
        Matrix minor;
@@ -395,7 +401,10 @@ namespace algebra
        }
        return minor;
    }
-   double Matrix::det()
+
+
+
+   double Matrix::det() const
    {
        // нахождение определителя
        unsigned n = content.size();
@@ -427,7 +436,7 @@ namespace algebra
 
 
 
-   void Matrix::inverse()
+   Matrix Matrix::inverse() const
    {
        // нахождение обратной матрицы
        double _det = this->det();
@@ -450,9 +459,38 @@ namespace algebra
                    matr_inv.content[i][j] = pow(-1, i + j) * minor.det();
                }
            }
-           matr_inv.T();
+           matr_inv = matr_inv.T();
            matr_inv = matr_inv * (1 / _det);
-           this -> content = matr_inv.content;
+           return matr_inv;
        }
+   }
+
+
+   unsigned Matrix::size_W() const
+   {
+       return content[0].size();
+   }
+
+
+   unsigned Matrix::size_H() const
+   {
+       return content.size();
+   }
+
+
+   Matrix operator * (double num, Matrix &matr)
+   {
+       // умножение матрицы на скаляр
+       unsigned m = matr.size_H();
+       unsigned n = matr.size_W();
+       Matrix rezult(m, n);
+       for (unsigned i = 0; i < m; i++)
+       {
+           for (unsigned j = 0; j < n; j++)
+           {
+               rezult.content[i][j] =  num * matr.content[i][j];
+           }
+       }
+       return rezult;
    }
 }

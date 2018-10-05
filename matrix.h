@@ -15,17 +15,16 @@ namespace algebra
         matrixd content;
     public:
         Matrix(unsigned m = 0, unsigned n = 0);
-        double element(unsigned i, unsigned j);
+        double element(unsigned i, unsigned j) const;
         void set_element(double e, unsigned i, unsigned j);
-        vectord row(unsigned i);
+        vectord row(unsigned i) const;
         void set_row(vectord &v, unsigned i);
-        void print_element(unsigned i, unsigned j, int a = 7, int b = 2);
-        void print_row(unsigned i, int a = 7, int b = 2);
-        void print_matrix(int a = 7, int b = 2);
+        void print_element(unsigned i, unsigned j, int a = 7, int b = 2) const;
+        void print_row(unsigned i, int a = 7, int b = 2) const;
+        void print_matrix(int a = 7, int b = 2) const;
         void input_matrix();
-        Matrix operator + (Matrix &matr);
-        Matrix operator - (Matrix &matr);
-        unsigned size();
+        Matrix operator + (const Matrix &matr) const;
+        Matrix operator - (const Matrix &matr) const;
         void clear();
         void resize(unsigned m, unsigned n);
         void randint(int a = 0, int b = 100);
@@ -34,12 +33,14 @@ namespace algebra
         void same_num(double num);
         void one();
         void zero();
-        Matrix operator * (Matrix &matr);
-        Matrix operator * (double num);
-        void T();
-        Matrix minor(unsigned i, unsigned j);
-        double det();
-        void inverse();
+        Matrix operator * (const Matrix &matr) const;
+        Matrix operator * (double num) const;
+        Matrix T() const;
+        Matrix minor(unsigned i, unsigned j) const;
+        double det() const;
+        Matrix inverse() const;
+        unsigned size_W() const;
+        unsigned size_H() const;
         friend Matrix operator * (double num, Matrix &matr);
     };
 }
