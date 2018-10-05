@@ -15,21 +15,19 @@ namespace algebra
         matrixd content;
     public:
         Matrix(unsigned m = 0, unsigned n = 0);
-        double get_element(unsigned i, unsigned j);
+        double element(unsigned i, unsigned j);
         void set_element(double e, unsigned i, unsigned j);
-        vectord get_row(unsigned i);
+        vectord row(unsigned i);
         void set_row(vectord &v, unsigned i);
         void print_element(unsigned i, unsigned j, int a = 7, int b = 2);
-        void input_element(unsigned i, unsigned j);
         void print_row(unsigned i, int a = 7, int b = 2);
-        void input_row(unsigned i);
         void print_matrix(int a = 7, int b = 2);
         void input_matrix();
         Matrix operator + (Matrix &matr);
         Matrix operator - (Matrix &matr);
-        unsigned get_size();
+        unsigned size();
         void clear();
-        void set_size(unsigned m, unsigned n);
+        void resize(unsigned m, unsigned n);
         void randint(int a = 0, int b = 100);
         void random();
         void randfloat(int a = 0, int b = 100);
@@ -40,8 +38,9 @@ namespace algebra
         Matrix operator * (double num);
         void T();
         Matrix minor(unsigned i, unsigned j);
-        double Det();
+        double det();
         void inverse();
+        friend Matrix operator * (double num, Matrix &matr);
     };
 }
 

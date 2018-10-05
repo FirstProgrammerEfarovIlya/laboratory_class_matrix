@@ -21,7 +21,7 @@ namespace algebra
     }
 
 
-    double Matrix::get_element(unsigned i, unsigned j)
+    double Matrix::element(unsigned i, unsigned j)
     {
         return this->content[i][j];
     }
@@ -33,7 +33,7 @@ namespace algebra
     }
 
 
-    vectord Matrix::get_row(unsigned i)
+    vectord Matrix::row(unsigned i)
     {
         return this->content[i];
     }
@@ -52,13 +52,6 @@ namespace algebra
     }
 
 
-    void Matrix::input_element(unsigned i, unsigned j)
-    {
-         cout << "element[" << i << "]" << "[" << j << "] = ";
-         cin >> this->content[i][j];
-    }
-
-
     void Matrix::print_row(unsigned i, int a, int b)
     {
         cout << "{";
@@ -67,17 +60,6 @@ namespace algebra
             cout << fixed << setw(a) << setprecision(b) << e << ";";
         }
         cout << "}";
-    }
-
-
-    void Matrix::input_row(unsigned i)
-    {
-        cout << "Enter " << i << "-row : " << endl;
-        cout << ": ";
-        for (double &e : this->content[i])
-        {
-            cin >> e;
-        }
     }
 
 
@@ -184,7 +166,7 @@ namespace algebra
     }
 
 
-    unsigned Matrix::get_size()
+    unsigned Matrix::size()
     {
         unsigned s = 0;
         for (vectord line : this -> content)
@@ -201,7 +183,7 @@ namespace algebra
    }
 
 
-   void Matrix::set_size(unsigned m, unsigned n)
+   void Matrix::resize(unsigned m, unsigned n)
    {
        matrixd cmatr(m);
        unsigned mc = content.size();
@@ -413,33 +395,33 @@ namespace algebra
        }
        return minor;
    }
-   double Matrix::Det()
+   double Matrix::det()
    {
        // нахождение определителя
        unsigned n = content.size();
-       double det;
+       double _det;
        if (n == 1)
        {
-           det = content[0][0];
-           return det;
+           _det = content[0][0];
+           return _det;
        }
        if (n == 2)
        {
-           det = content[0][0]*content[1][1] - content[0][1]*content[1][0];
-           return det;
+           _det = content[0][0]*content[1][1] - content[0][1]*content[1][0];
+           return _det;
        }
        else
        {
-           det = 0.0;
+           _det = 0.0;
            for (unsigned i = 0; i < 1; i++)
            {
                for (unsigned j = 0; j < n; j++)
                {
                    Matrix minor = this -> minor(i, j);
-                   det += pow(-1, i + j) * content[i][j] * minor.Det();
+                   _det += pow(-1, i + j) * content[i][j] * minor.det();
                }
            }
-           return det;
+           return _det;
        }
    }
 
@@ -448,8 +430,8 @@ namespace algebra
    void Matrix::inverse()
    {
        // нахождение обратной матрицы
-       double det = this->Det();
-       if (det == 0.0)
+       double _det = this->det();
+       if (_det == 0.0)
        {
            cout << "Determinant = 0. Can not find inverse matrix!!!" << endl;
            exit(0);
@@ -465,11 +447,11 @@ namespace algebra
                for (unsigned j = 0; j < n; j++)
                {
                    Matrix minor = this -> minor(i, j);
-                   matr_inv.content[i][j] = pow(-1, i + j) * minor.Det();
+                   matr_inv.content[i][j] = pow(-1, i + j) * minor.det();
                }
            }
            matr_inv.T();
-           matr_inv = matr_inv * (1 / det);
+           matr_inv = matr_inv * (1 / _det);
            this -> content = matr_inv.content;
        }
    }
