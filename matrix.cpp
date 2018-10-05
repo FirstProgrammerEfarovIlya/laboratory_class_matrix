@@ -440,28 +440,35 @@ namespace algebra
    {
        // нахождение обратной матрицы
        double _det = this->det();
-       if (_det == 0.0)
+       try
        {
-           cout << "Determinant = 0. Can not find inverse matrix!!!" << endl;
-           exit(0);
-       }
-       else
-       {
-           unsigned n = content.size();
-           //matrixd matrix_inv = matrix;
-           Matrix matr_inv;
-           matr_inv.content = this->content;
-           for (unsigned i = 0; i < n; i++)
+           if (_det == 0.0)
            {
-               for (unsigned j = 0; j < n; j++)
-               {
-                   Matrix minor = this -> minor(i, j);
-                   matr_inv.content[i][j] = pow(-1, i + j) * minor.det();
-               }
+               throw 1;
            }
-           matr_inv = matr_inv.T();
-           matr_inv = matr_inv * (1 / _det);
-           return matr_inv;
+           else
+           {
+               unsigned n = content.size();
+               //matrixd matrix_inv = matrix;
+               Matrix matr_inv;
+               matr_inv.content = this->content;
+               for (unsigned i = 0; i < n; i++)
+               {
+                   for (unsigned j = 0; j < n; j++)
+                   {
+                       Matrix minor = this -> minor(i, j);
+                       matr_inv.content[i][j] = pow(-1, i + j) * minor.det();
+                   }
+               }
+               matr_inv = matr_inv.T();
+               matr_inv = matr_inv * (1 / _det);
+               return matr_inv;
+           }
+       }
+       catch (int x)
+       {
+           cout << "Determinant = 0. Can not find inverse matrix!!!" << "<" << x << ">" << endl;
+           exit(0);
        }
    }
 
