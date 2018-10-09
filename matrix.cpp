@@ -41,23 +41,17 @@ namespace algebra
 
     void Matrix::set_row(vectord &v, unsigned i)
     {
-        try
+        if (v.size() == content[0].size())
         {
-            if (v.size() == content[0].size())
-            {
-                this->content[i] = v;
-            }
-            else
-            {
-                throw 0;
-            }
+            this->content[i] = v;
         }
-        catch (int x)
+        else
         {
-            cout << endl;
-            cout << "The number of elements of the getting row is" << endl;
-            cout << " ​​not equal to the number of elements of the setting row!!!" << endl;
-            exit(x);
+            throw SizeError;
+            /*
+            "The number of elements of the getting row is"
+            " ​​not equal to the number of elements of the setting row!!!"
+                       */
         }
     }
 
@@ -120,19 +114,13 @@ namespace algebra
         unsigned n1 = this->content[0].size();
         unsigned m2 = matr.content.size();
         unsigned n2 = matr.content[0].size();
-        try
+
+        if (m1 != m2 || n1 != n2)
         {
-            if (m1 != m2 || n1 != n2)
-            {
-                throw 0;
-            }
+            throw SizeError;
+            //  Matrices have different sizes!!!
         }
-        catch(int x)
-        {
-            cout << endl;
-            cout << "Matrices have different sizes!!!" << endl;
-            exit(x);
-        }
+
 
         Matrix rezult(m1, n1);
 
@@ -155,18 +143,11 @@ namespace algebra
         unsigned n1 = this->content[0].size();
         unsigned m2 = matr.content.size();
         unsigned n2 = matr.content[0].size();
-        try
+
+        if (m1 != m2 || n1 != n2)
         {
-            if (m1 != m2 || n1 != n2)
-            {
-                throw 0;
-            }
-        }
-        catch(int x)
-        {
-            cout << endl;
-            cout << "Matrices have different sizes!!!" << endl;
-            exit(x);
+            throw SizeError;
+            //  Matrices have different sizes!!!
         }
 
         Matrix rezult(m1, n1);
@@ -311,20 +292,13 @@ namespace algebra
        unsigned n2 = matr.content[0].size();
        Matrix rezult(m1, n2);
 
-       try
+       if (n1 != m2)
        {
-           if (n1 != m2)
-           {
-               throw 0;
-           }
+           throw SizeError;
+           /*  "The number of columns of the first matrix is"
+            " ​​not equal to the number of rows of the second matrix!!!"*/
        }
-       catch(int x)
-       {
-           cout << endl;
-           cout << "The number of columns of the first matrix is" << endl;
-           cout << " ​​not equal to the number of rows of the second matrix!!!" << endl;
-           exit(x);
-       }
+
 
        for (unsigned i = 0; i < m1; i++)
        {
@@ -440,35 +414,28 @@ namespace algebra
    {
        // нахождение обратной матрицы
        double _det = this->det();
-       try
+       if (_det == 0.0)
        {
-           if (_det == 0.0)
-           {
-               throw 1;
-           }
-           else
-           {
-               unsigned n = content.size();
-               //matrixd matrix_inv = matrix;
-               Matrix matr_inv;
-               matr_inv.content = this->content;
-               for (unsigned i = 0; i < n; i++)
-               {
-                   for (unsigned j = 0; j < n; j++)
-                   {
-                       Matrix minor = this -> minor(i, j);
-                       matr_inv.content[i][j] = pow(-1, i + j) * minor.det();
-                   }
-               }
-               matr_inv = matr_inv.T();
-               matr_inv = matr_inv * (1 / _det);
-               return matr_inv;
-           }
+           throw ZeroDivision;
+           //   Determinant = 0. Can not find inverse matrix!!!
        }
-       catch (int x)
+       else
        {
-           cout << "Determinant = 0. Can not find inverse matrix!!!" << "<" << x << ">" << endl;
-           exit(0);
+           unsigned n = content.size();
+           //matrixd matrix_inv = matrix;
+           Matrix matr_inv;
+           matr_inv.content = this->content;
+           for (unsigned i = 0; i < n; i++)
+           {
+               for (unsigned j = 0; j < n; j++)
+               {
+                   Matrix minor = this -> minor(i, j);
+                   matr_inv.content[i][j] = pow(-1, i + j) * minor.det();
+               }
+           }
+           matr_inv = matr_inv.T();
+           matr_inv = matr_inv * (1 / _det);
+           return matr_inv;
        }
    }
 

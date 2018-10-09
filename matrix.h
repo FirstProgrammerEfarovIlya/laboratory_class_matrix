@@ -9,7 +9,7 @@ using matrixd = vector<vector<double>>;
 
 namespace algebra
 {
-    enum errors {SizeError, ZeroDivision};
+    enum Error {SizeError, ZeroDivision};
     class Matrix
     {
     private:
