@@ -6,6 +6,7 @@ using namespace std;
 
 using vectord = vector<double>;
 using matrixd = vector<vector<double>>;
+using FuncFillMatrix = double(*)(double, unsigned, unsigned);
 
 namespace algebra
 {
@@ -42,6 +43,11 @@ namespace algebra
         Matrix inverse() const;
         unsigned size_W() const;
         unsigned size_H() const;
+        void operator *= (const Matrix &matr);
+        void operator += (const Matrix &matr);
+        void operator -= (const Matrix &matr);
+        void operator *= (double num);
+        void fill_matrix(FuncFillMatrix func);
         friend Matrix operator * (double num, Matrix &matr);
     };
 }

@@ -452,6 +452,114 @@ namespace algebra
    }
 
 
+   void Matrix::operator *= (const Matrix &matr)
+   {
+       // умножение матриц
+       unsigned m1 = this->content.size();
+       unsigned n1 = this->content[0].size();
+       unsigned m2 = matr.content.size();
+       unsigned n2 = matr.content[0].size();
+       Matrix rezult(m1, n2);
+
+       if (n1 != m2)
+       {
+           throw SizeError;
+           /*  "The number of columns of the first matrix is"
+            " ​​not equal to the number of rows of the second matrix!!!"*/
+       }
+
+
+       for (unsigned i = 0; i < m1; i++)
+       {
+           for (unsigned j = 0; j < n2; j++)
+           {
+               for (unsigned k = 0; k < n1; k++)
+               {
+                   rezult.content[i][j] += this->content[i][k] * matr.content[k][j];
+               }
+           }
+       }
+
+       this->content = rezult.content;
+   }
+
+
+   void Matrix::operator += (const Matrix &matr)
+   {
+       // сложение матриц
+       unsigned m1 = this->content.size();
+       unsigned n1 = this->content[0].size();
+       unsigned m2 = matr.content.size();
+       unsigned n2 = matr.content[0].size();
+
+       if (m1 != m2 || n1 != n2)
+       {
+           throw SizeError;
+           //  Matrices have different sizes!!!
+       }
+
+       for (unsigned i = 0; i < m1; i++)
+       {
+           for (unsigned j = 0; j < n1; j++)
+           {
+               this->content[i][j] += matr.content[i][j];
+           }
+       }
+   }
+
+
+   void Matrix::operator -= (const Matrix &matr)
+   {
+       // вычитание матриц
+       unsigned m1 = this->content.size();
+       unsigned n1 = this->content[0].size();
+       unsigned m2 = matr.content.size();
+       unsigned n2 = matr.content[0].size();
+
+       if (m1 != m2 || n1 != n2)
+       {
+           throw SizeError;
+           //  Matrices have different sizes!!!
+       }
+
+       for (unsigned i = 0; i < m1; i++)
+       {
+           for (unsigned j = 0; j < n1; j++)
+           {
+               this->content[i][j] -= matr.content[i][j];
+           }
+       }
+   }
+
+
+   void Matrix::operator *= (double num)
+   {
+       // умножение матрицы на скаляр
+       unsigned m = this->content.size();
+       unsigned n = this->content[0].size();
+       for (unsigned i = 0; i < m; i++)
+       {
+           for (unsigned j = 0; j < n; j++)
+           {
+               this->content[i][j] *= num;
+           }
+       }
+   }
+
+
+   void Matrix::fill_matrix(FuncFillMatrix func)
+   {
+       // функция заполнения матрицы разными способами
+       for (unsigned i = 0; i < content.size(); i++)
+       {
+           for (unsigned j = 0; j < content[0].size(); j++)
+           {
+               content[i][j] = func(content[i][j], i, j);
+           }
+       }
+   }
+
+
    Matrix operator * (double num, Matrix &matr)
    {
        // умножение матрицы на скаляр
