@@ -11,6 +11,8 @@ using FuncFillMatrix = double(*)(double, unsigned, unsigned);
 namespace algebra
 {
     enum Error {SizeError, ZeroDivision};
+    enum Direction {right, left, up, down};
+
     class Matrix
     {
     private:
@@ -48,6 +50,9 @@ namespace algebra
         void operator -= (const Matrix &matr);
         void operator *= (double num);
         void fill_matrix(FuncFillMatrix func);
+        Matrix replace_line(unsigned index) const;
+        Matrix method_gauss() const;
+        void delta(Direction d);
         friend Matrix operator * (double num, Matrix &matr);
     };
 }

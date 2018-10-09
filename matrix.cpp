@@ -560,6 +560,58 @@ namespace algebra
    }
 
 
+   Matrix Matrix::replace_line(unsigned index) const
+   {
+       // функция смены нулевой и не нулевой строки
+       vectord line;
+       Matrix matr;
+       matr.content = this->content;
+       for (unsigned i = index + 1; i < this->size_H(); i++)
+       {
+           if (matr.content[i][index] != 0.0000)
+           {
+               line = matr.content[index];
+               matr.content[index] = matr.content[i];
+               matr.content[i] = line;
+               return matr;
+           }
+       }
+       return matr;
+   }
+
+
+
+
+   Matrix Matrix::method_gauss() const
+   {
+       //метод гаусса
+       Matrix matra;
+       Matrix matrb;
+       matra.content = this->content;
+       for (unsigned j = 0; j < this->size_W() - 2; j++)
+       {
+           if (matra.content[j][j] == 0.000)
+           {
+                matra = this->replace_line(j);
+           }
+
+           matrb = matra;
+
+           for (unsigned i = j + 1; i < this->size_H(); i++)
+           {
+               for (unsigned k = j; k < this->size_W(); k++)
+               {
+                   matrb.content[i][k] = matrb.content[i][k] + (-matra.content[i][j] * matra.content[j][k]) / matra.content[j][j];
+               }
+           }
+
+           matra = matrb;
+       }
+
+       return matra;
+   }
+
+
    Matrix operator * (double num, Matrix &matr)
    {
        // умножение матрицы на скаляр
@@ -574,5 +626,25 @@ namespace algebra
            }
        }
        return rezult;
+   }
+
+
+   void Matrix::delta(Direction d)
+   {
+       for (unsigned i = 0; i < this->size_H(); i++)
+       {
+           for (unsigned j = 0; j < this ->size_W(); j++)
+           {
+               if ((i < j) && (d == up))
+               {
+                   content[i][j] = 0;
+               }
+
+               if ((i > j) && (d == down))
+               {
+                   content[i][j] = 0;
+               }
+           }
+       }
    }
 }
