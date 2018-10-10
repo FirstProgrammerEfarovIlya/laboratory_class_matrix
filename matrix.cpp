@@ -588,11 +588,22 @@ namespace algebra
        Matrix matra;
        Matrix matrb;
        matra.content = this->content;
+
        for (unsigned j = 0; j < this->size_W() - 2; j++)
        {
            if (matra.content[j][j] == 0.000)
            {
-                matra = this->replace_line(j);
+               matra = matra.replace_line(j);
+           }
+
+
+           if (matra.content[j][j] == 0.000)
+           {
+               throw ZeroDivision;
+               /*
+               In the matrix there is a zero column.
+               There will be a division of nv zero. This column should be excluded !!!
+               */
            }
 
            matrb = matra;

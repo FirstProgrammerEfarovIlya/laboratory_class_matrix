@@ -9,7 +9,7 @@ using namespace algebra;
 
 int main()
 {
-    Matrix matr1(5, 5);
+    Matrix matr1(3, 4);
     matr1.randint(1, 10);
     matr1.print_matrix(3, 0);
     FuncFillMatrix lambda1 = [](double x, unsigned i, unsigned j)->double{return pow(x, i*2 + j*2);};
