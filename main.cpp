@@ -14,6 +14,6 @@ int main()
     matr1.print_matrix(3, 0);
     FuncFillMatrix lambda1 = [](double x, unsigned i, unsigned j)->double{return pow(x, i*2 + j*2);};
     matr1.fill_matrix(lambda1);
-    matr1.print_matrix(13, 0);
+    matr1.print_matrix(13, 8);
     return 0;
 }

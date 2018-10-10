@@ -246,7 +246,6 @@ namespace algebra
    }
 
 
-
    void Matrix::one()
    {
        unsigned m = content.size();
@@ -266,7 +265,6 @@ namespace algebra
            }
        }
    }
-
 
 
    void Matrix::zero()
@@ -377,7 +375,6 @@ namespace algebra
    }
 
 
-
    double Matrix::det() const
    {
        // нахождение определителя
@@ -407,7 +404,6 @@ namespace algebra
            return _det;
        }
    }
-
 
 
    Matrix Matrix::inverse() const
@@ -580,8 +576,6 @@ namespace algebra
    }
 
 
-
-
    Matrix Matrix::method_gauss() const
    {
        //метод гаусса
@@ -623,23 +617,6 @@ namespace algebra
    }
 
 
-   Matrix operator * (double num, Matrix &matr)
-   {
-       // умножение матрицы на скаляр
-       unsigned m = matr.size_H();
-       unsigned n = matr.size_W();
-       Matrix rezult(m, n);
-       for (unsigned i = 0; i < m; i++)
-       {
-           for (unsigned j = 0; j < n; j++)
-           {
-               rezult.content[i][j] =  num * matr.content[i][j];
-           }
-       }
-       return rezult;
-   }
-
-
    void Matrix::delta(Direction d)
    {
        for (unsigned i = 0; i < this->size_H(); i++)
@@ -657,5 +634,49 @@ namespace algebra
                }
            }
        }
+   }
+
+
+   vectord Matrix::reverse_step()
+   {
+       // обратный ход, нахождение иксов
+       unsigned n = this->size_W() - 1;
+       vectord x(n);
+       double s;
+       unsigned m = n - 1;
+       for (int i = m; i >= 0; i--)
+       {
+           if (i == m)
+           {
+               x[m] = content[m][m + 1] / content[m][m];
+           }
+           if (i < m)
+           {
+               s = 0;
+               for (unsigned j = m; j > i; j--)
+               {
+                   s += x[j] * content[i][j];
+               }
+               x[i] = (content[i][m + 1] - s)/ content[i][i];
+           }
+       }
+       return x;
+   }
+
+
+   Matrix operator * (double num, Matrix &matr)
+   {
+       // умножение матрицы на скаляр
+       unsigned m = matr.size_H();
+       unsigned n = matr.size_W();
+       Matrix rezult(m, n);
+       for (unsigned i = 0; i < m; i++)
+       {
+           for (unsigned j = 0; j < n; j++)
+           {
+               rezult.content[i][j] =  num * matr.content[i][j];
+           }
+       }
+       return rezult;
    }
 }

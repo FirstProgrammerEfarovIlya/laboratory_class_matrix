@@ -53,6 +53,7 @@ namespace algebra
         Matrix replace_line(unsigned index) const;
         Matrix method_gauss() const;
         void delta(Direction d);
+        vectord reverse_step();
         friend Matrix operator * (double num, Matrix &matr);
     };
 }
