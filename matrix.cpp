@@ -56,57 +56,6 @@ namespace algebra
     }
 
 
-    void Matrix::print_element(unsigned i, unsigned j, int a, int b) const
-    {
-        cout << fixed << setw(a) << setprecision(b) << "element[" << i << "]"
-             << "[" << j << "] = " << content[i][j] << endl;
-    }
-
-
-    void Matrix::print_row(unsigned i, int a, int b) const
-    {
-        cout << "{";
-        for (double e : this->content[i])
-        {
-            cout << fixed << setw(a) << setprecision(b) << e << ";";
-        }
-        cout << "}";
-    }
-
-
-    void Matrix::print_matrix(int a, int b) const
-    {
-        cout << endl;
-
-        for (vectord line : this->content)
-        {
-            for (double e : line)
-            {
-                cout << fixed << setw(a) << setprecision(b) << e;
-            }
-            cout << endl;
-        }
-
-        cout << endl;
-    }
-
-
-    void Matrix::input_matrix()
-    {
-        cout << endl;
-        cout << "Enter matrix" << endl;
-        for (vectord &line : this->content)
-        {
-            cout << ": ";
-            for (double &e : line)
-            {
-                cin >> e;
-            }
-        }
-        cout << endl;
-    }
-
-
     Matrix Matrix::operator + (const Matrix &matr) const
     {
         // сложение матриц
@@ -576,14 +525,14 @@ namespace algebra
    }
 
 
-   Matrix Matrix::method_gauss() const
+   Matrix method_gauss(const Matrix &matr)
    {
        //метод гаусса
        Matrix matra;
        Matrix matrb;
-       matra.content = this->content;
+       matra.content = matr.content;
 
-       for (unsigned j = 0; j < this->size_W() - 2; j++)
+       for (unsigned j = 0; j < matr.size_W() - 2; j++)
        {
            if (matra.content[j][j] == 0.000)
            {
@@ -602,9 +551,9 @@ namespace algebra
 
            matrb = matra;
 
-           for (unsigned i = j + 1; i < this->size_H(); i++)
+           for (unsigned i = j + 1; i < matr.size_H(); i++)
            {
-               for (unsigned k = j; k < this->size_W(); k++)
+               for (unsigned k = j; k < matr.size_W(); k++)
                {
                    matrb.content[i][k] = matrb.content[i][k] + (-matra.content[i][j] * matra.content[j][k]) / matra.content[j][j];
                }
@@ -637,10 +586,10 @@ namespace algebra
    }
 
 
-   vectord Matrix::reverse_step()
+   vectord reverse_step(const Matrix &matr)
    {
        // обратный ход, нахождение иксов
-       unsigned n = this->size_W() - 1;
+       unsigned n = matr.size_W() - 1;
        vectord x(n);
        double s;
        unsigned m = n - 1;
@@ -648,16 +597,16 @@ namespace algebra
        {
            if (i == m)
            {
-               x[m] = content[m][m + 1] / content[m][m];
+               x[m] = matr.content[m][m + 1] / matr.content[m][m];
            }
            if (i < m)
            {
                s = 0;
                for (unsigned j = m; j > i; j--)
                {
-                   s += x[j] * content[i][j];
+                   s += x[j] * matr.content[i][j];
                }
-               x[i] = (content[i][m + 1] - s)/ content[i][i];
+               x[i] = (matr.content[i][m + 1] - s)/ matr.content[i][i];
            }
        }
        return x;
@@ -678,5 +627,51 @@ namespace algebra
            }
        }
        return rezult;
+   }
+
+
+   void print_row(const Matrix &matr, unsigned i, int a, int b)
+   {
+       cout << "{";
+       for (unsigned j = 0; j < matr.size_W() - 1; j++)
+       {
+           cout << fixed << setw(a) << setprecision(b) << matr.element(i, j) << ", ";
+       }
+       cout << fixed << setw(a) << setprecision(b) << matr.element(i, matr.size_W() - 1);
+       cout << "}";
+   }
+
+
+   void print_matrix(const Matrix &matr, int a, int b)
+   {
+       cout << endl;
+       for (unsigned i = 0; i < matr.size_H(); i++)
+       {
+           for (unsigned j = 0; j < matr.size_W(); j++)
+           {
+               cout << fixed << setw(a) << setprecision(b) << matr.element(i, j);
+           }
+           cout << endl;
+       }
+
+       cout << endl;
+   }
+
+
+   void input_matrix(Matrix &matr)
+   {
+       cout << endl;
+       cout << "Enter matrix" << endl;
+       for (unsigned i = 0; i < matr.size_H(); i++)
+       {
+           cout << ": ";
+           for (unsigned j = 0; j < matr.size_W(); j++)
+           {
+               double e;
+               cin >> e;
+               matr.set_element(e, i, j);
+           }
+       }
+       cout << endl;
    }
 }

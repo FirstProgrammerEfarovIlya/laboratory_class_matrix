@@ -18,44 +18,43 @@ namespace algebra
     private:
         matrixd content;
     public:
-        Matrix(unsigned m = 0, unsigned n = 0);
+        Matrix(unsigned m = 0, unsigned n = 0);     //  Creates a matrix of zeros
         double element(unsigned i, unsigned j) const;
         void set_element(double e, unsigned i, unsigned j);
         vectord row(unsigned i) const;
         void set_row(vectord &v, unsigned i);
-        void print_element(unsigned i, unsigned j, int a = 7, int b = 2) const;
-        void print_row(unsigned i, int a = 7, int b = 2) const;
-        void print_matrix(int a = 7, int b = 2) const;
-        void input_matrix();
-        Matrix operator + (const Matrix &matr) const;
-        Matrix operator - (const Matrix &matr) const;
-        void clear();
-        void resize(unsigned m, unsigned n);
-        void randint(int a = 0, int b = 100);
-        void random();
-        void randfloat(int a = 0, int b = 100);
-        void same_num(double num);
-        void one();
-        void zero();
-        Matrix operator * (const Matrix &matr) const;
-        Matrix operator * (double num) const;
-        Matrix T() const;
-        Matrix minor(unsigned i, unsigned j) const;
-        double det() const;
-        Matrix inverse() const;
-        unsigned size_W() const;
-        unsigned size_H() const;
-        void operator *= (const Matrix &matr);
-        void operator += (const Matrix &matr);
-        void operator -= (const Matrix &matr);
-        void operator *= (double num);
-        void fill_matrix(FuncFillMatrix func);
-        Matrix replace_line(unsigned index) const;
-        Matrix method_gauss() const;
-        void delta(Direction d);
-        vectord reverse_step();
-        friend Matrix operator * (double num, Matrix &matr);
+        Matrix operator + (const Matrix &matr) const;       // Matrix addition
+        Matrix operator - (const Matrix &matr) const;       // Matrix subtraction
+        void clear();       // Completely cleans the container
+        void resize(unsigned m, unsigned n);        // Changes the size of the matrix
+        void randint(int a = 0, int b = 100);       // Fills a matrix of integer numbers
+        void random();      // Fills a matrix of float numbers from 0 to 1
+        void randfloat(int a = 0, int b = 100);         // Fills a matrix of float numbers
+        void same_num(double num);      // Fills a matrix of same numbers
+        void one();         // Creates identity matrices
+        void zero();        // Creates zero matrices
+        Matrix operator * (const Matrix &matr) const;       // Matrix multiplication
+        Matrix operator * (double num) const;       // Matrix multiplication by scalar
+        Matrix T() const;       // Matrix transposition
+        Matrix minor(unsigned i, unsigned j) const;     // Finding minor
+        double det() const;     // Calculating the determinant
+        Matrix inverse() const;     // Finding the inverse matrix
+        unsigned size_W() const;        // Number of lines
+        unsigned size_H() const;        // Number of columns
+        void operator *= (const Matrix &matr);       // Matrix multiplication
+        void operator += (const Matrix &matr);       // Matrix addition
+        void operator -= (const Matrix &matr);       // Matrix subtraction
+        void operator *= (double num);       // Matrix multiplication by scalar
+        void fill_matrix(FuncFillMatrix func);      // Filling the matrix using the lambda function
+        Matrix replace_line(unsigned index) const;      // function to change the zero and non-zero string
+        void delta(Direction d);        // Creating a triangular matrix
+        friend Matrix operator * (double num, Matrix &matr);       // Matrix multiplication by scalar
+        friend Matrix method_gauss(const Matrix &matr);     // Implementation of the Gauss method
+        friend vectord reverse_step(const Matrix &matr);        // Finding unknowns after using the Gauss method
     };
+    void print_row(const Matrix &matr, unsigned i, int a = 7, int b = 2);       // Print one of the rows of the matrix
+    void print_matrix(const Matrix &matr, int a = 7, int b = 2);        // Print matrix
+    void input_matrix(Matrix &matr);        // Sequential line by element entry
 }
 
 #endif // MATRIX_H
